@@ -44,7 +44,7 @@ const Icon = ({ type, size = 28, color = C.primary }: IconProps) => {
   return <span style={s}>{icons[type]}</span>;
 };
 
-const serviceOptions = [
+const serviceOptions: Array<{ id: string; label: string; desc: string; icon: IconType }> = [
   { id: "social", label: "Social Media Content", desc: "TikTok, Instagram, Facebook posts, reels, and stories", icon: "phone" },
   { id: "blog", label: "Blog Writing", desc: "SEO-optimized articles that drive organic traffic", icon: "pen" },
   { id: "research", label: "Topic & Trend Research", desc: "Data-driven content ideas tailored to your audience", icon: "search" },
@@ -180,11 +180,26 @@ export default function App() {
     </button>
   );
 
-  const RadioBtn = ({ selected, onClick, children }) => (
+  interface RadioBtnProps {
+    selected: boolean;
+    onClick: () => void;
+    children: React.ReactNode;
+  }
+
+  const RadioBtn: React.FC<RadioBtnProps> = ({ selected, onClick, children }) => (
     <button onClick={onClick} style={{ padding: "10px 16px", borderRadius: 10, border: selected ? `2px solid ${C.primary}` : "2px solid #E2E2E2", background: selected ? C.primaryLight : "#fff", cursor: "pointer", fontWeight: 500, fontSize: 14, color: "#1a1a2e", transition: "all 0.15s", width: "100%", textAlign: "left" }}>{children}</button>
   );
 
-  const Input = ({ label, value, onChange, type = "text", required, placeholder }) => (
+  interface InputProps {
+    label: string;
+    value: string;
+    onChange: (value: string) => void;
+    type?: string;
+    required?: boolean;
+    placeholder?: string;
+  }
+
+  const Input: React.FC<InputProps> = ({ label, value, onChange, type = "text", required, placeholder }) => (
     <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
       <label style={{ fontSize: 13, fontWeight: 600, color: "#444" }}>{label} {required && <span style={{ color: C.primary }}>*</span>}</label>
       <input type={type} value={value} onChange={e => onChange(e.target.value)} placeholder={placeholder} style={{ padding: "10px 14px", borderRadius: 8, border: "1.5px solid #ddd", fontSize: 15, outline: "none", fontFamily: "inherit" }} onFocus={e => e.target.style.borderColor = C.primary} onBlur={e => e.target.style.borderColor = "#ddd"} />
