@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# Disallow admin or API routes (none currently)
+# Disallow: /api/
+# Disallow: /admin/
+
+Sitemap: https://lillyhelpsu.github.io/OpenClawSetup/sitemap.xml
