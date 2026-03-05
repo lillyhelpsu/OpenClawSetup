@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 
 const C = {
   primary: "#10B981",
@@ -114,6 +114,42 @@ export default function App() {
     phone: "",
     notes: "",
   });
+
+  // Add FAQ structured data for SEO
+  useEffect(() => {
+    const faqSchema = {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": faqs.map(faq => ({
+        "@type": "Question",
+        "name": faq.q,
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": faq.a
+        }
+      }))
+    };
+
+    const script = document.createElement('script');
+    script.type = 'application/ld+json';
+    script.textContent = JSON.stringify(faqSchema);
+    script.id = 'faq-schema';
+    
+    // Remove existing schema if it exists
+    const existing = document.getElementById('faq-schema');
+    if (existing) {
+      existing.remove();
+    }
+    
+    document.head.appendChild(script);
+
+    return () => {
+      const schemaScript = document.getElementById('faq-schema');
+      if (schemaScript) {
+        schemaScript.remove();
+      }
+    };
+  }, []);
 
   const GOOGLE_SCRIPT_URL = "YOUR_GOOGLE_SCRIPT_URL_HERE";
 
@@ -274,15 +310,28 @@ export default function App() {
             </svg>
           </div>
         </div>
-        <button onClick={scrollToForm} style={{ padding: "8px 20px", borderRadius: 8, border: "none", background: C.primary, color: "#fff", fontWeight: 600, fontSize: 14, cursor: "pointer" }}>Get Started</button>
+        <div style={{ display: "flex", gap: 16, alignItems: "center" }}>
+          <a 
+            href="/OpenClawSetup/pricing" 
+            style={{ color: "#666", textDecoration: "none", fontSize: 14, fontWeight: 500 }}
+            onClick={(e) => {
+              e.preventDefault();
+              window.history.pushState({}, '', '/OpenClawSetup/pricing');
+              window.dispatchEvent(new PopStateEvent('popstate'));
+            }}
+          >
+            Pricing
+          </a>
+          <button onClick={scrollToForm} style={{ padding: "8px 20px", borderRadius: 8, border: "none", background: C.primary, color: "#fff", fontWeight: 600, fontSize: 14, cursor: "pointer" }}>Get Started</button>
+        </div>
       </nav>
 
       {/* Hero */}
       <header style={{ textAlign: "center", padding: "60px 24px 48px", maxWidth: 720, margin: "0 auto" }}>
         <div style={{ display: "inline-block", padding: "5px 14px", borderRadius: 20, background: C.primaryLight, color: C.primaryDark, fontSize: 13, fontWeight: 600, marginBottom: 20 }}>AI Marketing Agents for small to medium sized businesses</div>
-        <h1 style={{ fontSize: 40, fontWeight: 800, lineHeight: 1.15, margin: "0 0 24px", letterSpacing: "-0.02em" }}>Your AI Marketing Agent<br/>Custom Built and Always On</h1>
+        <h1 style={{ fontSize: 40, fontWeight: 800, lineHeight: 1.15, margin: "0 0 24px", letterSpacing: "-0.02em" }}>Your Custom OpenClaw Marketing Agent<br/>— Built and Always On</h1>
         <p style={{ fontSize: 18, color: "#555", lineHeight: 1.6, margin: "0 0 32px", maxWidth: 580, marginLeft: "auto", marginRight: "auto" }}>
-          OpenClaw sets up autonomous marketing agents that create social media posts, write blog content, and research trending topics for your business across TikTok, Instagram, and Facebook. Tell us what you need, and we'll build your agent in 72 hours. Setup starts at just $300.
+          OpenClaw Marketing Agents builds autonomous AI marketing agents that create social media posts, write blog content, and research trending topics for your business across TikTok, Instagram, and Facebook. Whether you search for "open claw" or "OpenClaw," we're the experts who'll build your custom marketing agent in 72 hours. Setup starts at just $300.
         </p>
         <button onClick={scrollToForm} style={{ padding: "14px 36px", borderRadius: 10, border: "none", background: C.gradient, color: "#fff", fontWeight: 700, fontSize: 16, cursor: "pointer", boxShadow: `0 4px 16px ${C.shadow}` }}>
           Build My Marketing Agent
@@ -323,7 +372,7 @@ export default function App() {
       {/* Features */}
       <section style={{ background: "#fff", borderTop: "1px solid #eee", borderBottom: "1px solid #eee" }}>
         <div style={{ ...SS.section }}>
-          <h2 style={{ fontSize: 28, fontWeight: 800, margin: "0 0 8px", textAlign: "center" }}>Why Trust Us to Set Up Your Marketing Agent</h2>
+          <h2 style={{ fontSize: 28, fontWeight: 800, margin: "0 0 8px", textAlign: "center" }}>Why Trust Us to Set Up Your OpenClaw Marketing Agent</h2>
           <p style={{ color: "#666", fontSize: 16, margin: "0 0 36px", textAlign: "center" }}>Agent setup is the hard part. We've already figured it out so you don't have to.</p>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }}>
             {features.map(f => (
@@ -338,9 +387,9 @@ export default function App() {
       </section>
 
       {/* Intake Form */}
-      <section ref={formRef} style={{ ...SS.section, paddingBottom: 32 }}>
+      <section ref={formRef} data-form style={{ ...SS.section, paddingBottom: 32 }}>
         <div style={{ textAlign: "center", marginBottom: 24 }}>
-          <h2 style={{ fontSize: 28, fontWeight: 800, margin: "0 0 8px" }}>Get Your Custom AI Marketing Agent</h2>
+          <h2 style={{ fontSize: 28, fontWeight: 800, margin: "0 0 8px" }}>Get Your Custom OpenClaw AI Marketing Agent</h2>
           <p style={{ color: "#666", fontSize: 16, margin: 0 }}>Tell us what you need. We'll respond in 24 hours with a setup plan and pricing.</p>
         </div>
         <div style={{ maxWidth: 520, margin: "0 auto 16px", display: "flex", gap: 6 }}>
@@ -372,7 +421,7 @@ export default function App() {
       {/* FAQ */}
       <section style={{ background: "#fff", borderTop: "1px solid #eee" }}>
         <div style={{ ...SS.section }}>
-          <h2 style={{ fontSize: 28, fontWeight: 800, margin: "0 0 8px", textAlign: "center" }}>Frequently Asked Questions About AI Marketing Agents</h2>
+          <h2 style={{ fontSize: 28, fontWeight: 800, margin: "0 0 8px", textAlign: "center" }}>Frequently Asked Questions About OpenClaw Marketing Agents</h2>
           <p style={{ color: "#666", fontSize: 16, margin: "0 auto 36px", textAlign: "center", maxWidth: 560 }}>Everything you need to know about how OpenClaw marketing agents work, what they cost, and what to expect.</p>
           <div style={{ maxWidth: 640, margin: "0 auto", display: "flex", flexDirection: "column", gap: 10 }}>
             {faqs.map((f, i) => (
@@ -397,8 +446,8 @@ export default function App() {
 
       {/* Footer */}
       <footer style={{ padding: "32px 24px", textAlign: "center", fontSize: 13, color: "#999", borderTop: "1px solid #eee" }}>
-        <p style={{ margin: "0 0 4px" }}>© 2026 OpenClaw. AI-Powered Marketing Agents for Small and Medium Sized Businesses</p>
-        <p style={{ margin: 0 }}>Custom AI social agents, content marketing automation, blog writing, and social media management powered by OpenClaw.</p>
+        <p style={{ margin: "0 0 4px" }}>© 2026 OpenClaw Marketing Agents. AI-Powered Marketing Agents for Small and Medium Sized Businesses</p>
+        <p style={{ margin: 0 }}>Custom OpenClaw social agents, content marketing automation, blog writing, and social media management. OpenClaw setup service available worldwide.</p>
       </footer>
     </div>
   );
