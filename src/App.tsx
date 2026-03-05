@@ -53,7 +53,6 @@ const serviceOptions = [
 
 const platformOptions = ["TikTok", "Instagram", "Facebook", "Blog / Website", "All of the above"];
 const cadenceOptions = ["A few posts per week", "Daily posting", "Multiple posts per day", "Not sure, help me decide"];
-const budgetOptions = ["Under $500/mo", "$500 to $1,000/mo", "$1,000 to $2,500/mo", "$2,500+/mo", "Not sure yet"];
 const goalOptions = ["Brand awareness", "Lead generation", "Drive foot traffic", "Online sales / conversions", "Ecommerce", "Community building", "Thought leadership"];
 
 const features = [
@@ -81,12 +80,27 @@ const stats = [
   { num: "0", label: "Long-term contracts required" },
 ];
 
+interface FormData {
+  services: string[];
+  platforms: string[];
+  cadence: string;
+  budget: string;
+  goals: string[];
+  businessName: string;
+  industry: string;
+  website: string;
+  name: string;
+  email: string;
+  phone: string;
+  notes: string;
+}
+
 export default function App() {
   const [step, setStep] = useState(0);
   const [submitted, setSubmitted] = useState(false);
-  const [openFaq, setOpenFaq] = useState(null);
-  const formRef = useRef(null);
-  const [form, setForm] = useState({
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const formRef = useRef<HTMLDivElement>(null);
+  const [form, setForm] = useState<FormData>({
     services: [],
     platforms: [],
     cadence: "",
@@ -129,7 +143,14 @@ export default function App() {
     setSubmitted(true);
   };
 
-  const toggle = (key, val) => setForm(f => ({ ...f, [key]: f[key].includes(val) ? f[key].filter(v => v !== val) : [...f[key], val] }));
+  const toggle = (key: keyof FormData, val: string) => {
+    setForm(f => ({
+      ...f,
+      [key]: Array.isArray(f[key]) && (f[key] as string[]).includes(val)
+        ? (f[key] as string[]).filter((v: string) => v !== val)
+        : [...(f[key] as string[]), val]
+    }));
+  };
 
   const canNext = () => {
     if (step === 0) return form.services.length > 0;
@@ -141,7 +162,15 @@ export default function App() {
 
   const scrollToForm = () => formRef.current?.scrollIntoView({ behavior: "smooth" });
 
-  const Chip = ({ selected, onClick, children, sub, icon }) => (
+  interface ChipProps {
+    selected: boolean;
+    onClick: () => void;
+    children: React.ReactNode;
+    sub?: string;
+    icon?: IconType;
+  }
+
+  const Chip: React.FC<ChipProps> = ({ selected, onClick, children, sub, icon }) => (
     <button onClick={onClick} style={{ display: "flex", alignItems: "flex-start", gap: 12, padding: sub ? "14px 18px" : "10px 16px", borderRadius: 10, border: selected ? `2px solid ${C.primary}` : "2px solid #E2E2E2", background: selected ? C.primaryLight : "#fff", cursor: "pointer", textAlign: "left", transition: "all 0.15s", width: "100%" }}>
       {icon && <span style={{ marginTop: 1 }}><Icon type={icon} size={20} /></span>}
       <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
