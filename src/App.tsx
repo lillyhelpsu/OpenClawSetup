@@ -55,7 +55,7 @@ const platformOptions = ["TikTok", "Instagram", "Facebook", "Blog / Website", "A
 const cadenceOptions = ["A few posts per week", "Daily posting", "Multiple posts per day", "Not sure, help me decide"];
 const goalOptions = ["Brand awareness", "Lead generation", "Drive foot traffic", "Online sales / conversions", "Ecommerce", "Community building", "Thought leadership"];
 
-const features = [
+const features: Array<{ icon: IconType; title: string; text: string }> = [
   { icon: "settings", title: "Agent Setup Is Still Technical. We Handle It.", text: "Building a marketing agent that actually works means wiring together LLMs, prompt chains, APIs, and output formatting. Most businesses hit a wall trying to do this themselves. We've done it dozens of times, so you skip straight to results." },
   { icon: "dollar", title: "Cheaper Than a Platform Subscription", text: "Third-party AI marketing platforms charge monthly seats, per-post fees, and lock you into their ecosystem. We build you an agent you own. No recurring platform tax, no feature gates, no surprise invoices as you scale. Setup starts at just $300." },
   { icon: "cpu", title: "Deep Prompt Engineering & AI Expertise", text: "The difference between generic AI output and content that sounds like your brand comes down to how the agent is built. Our team has deep expertise in prompt architecture, model tuning, and agent orchestration, the kind of work that turns a chatbot into a content team." },
@@ -306,11 +306,11 @@ export default function App() {
         <h2 style={{ fontSize: 28, fontWeight: 800, margin: "0 0 8px" }}>How OpenClaw Marketing Agents Work</h2>
         <p style={{ color: "#666", fontSize: 16, margin: "0 0 36px" }}>Three steps from signup to your first AI-generated content.</p>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 24 }}>
-          {[
+          {([
             { n: "1", title: "Tell Us Your Needs", text: "Fill out the intake form with your platforms, goals, posting cadence, and brand details. Takes about 2 minutes.", icon: "clipboard" },
             { n: "2", title: "We Build Your Agent", text: "Our team configures a custom OpenClaw AI marketing agent trained on your brand voice, audience, and content strategy.", icon: "cpu" },
             { n: "3", title: "Content Starts Flowing", text: "Your agent produces platform-native social posts, blog articles, and topic research, ready for review or auto-publish.", icon: "send" },
-          ].map(s => (
+          ] as Array<{ n: string; title: string; text: string; icon: IconType }>).map(s => (
             <div key={s.n} style={{ padding: 24, background: "#fff", borderRadius: 14, border: "1px solid #eee", textAlign: "left" }}>
               <div style={{ width: 40, height: 40, borderRadius: 10, background: C.primaryLight, display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 14 }}><Icon type={s.icon} size={20} color={C.primaryDark} /></div>
               <h3 style={{ margin: "0 0 8px", fontSize: 16, fontWeight: 700 }}>{s.title}</h3>
