@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import React, { useState, useRef } from "react";
 
 const C = {
   primary: "#10B981",
@@ -11,11 +11,19 @@ const C = {
 
 const STEPS = ["Services", "Details", "Goals", "Contact"];
 
-const Icon = ({ type, size = 28, color = C.primary }) => {
-  const s = { width: size, height: size, display: "inline-flex", alignItems: "center", justifyContent: "center" };
-  const svgProps = { width: size, height: size, viewBox: "0 0 24 24", fill: "none", stroke: color, strokeWidth: 1.8, strokeLinecap: "round", strokeLinejoin: "round" };
+type IconType = "phone" | "pen" | "search" | "chart" | "zap" | "target" | "trending" | "settings" | "clipboard" | "cpu" | "send" | "check" | "clock" | "dollar" | "shield";
 
-  const icons = {
+interface IconProps {
+  type: IconType;
+  size?: number;
+  color?: string;
+}
+
+const Icon = ({ type, size = 28, color = C.primary }: IconProps) => {
+  const s = { width: size, height: size, display: "inline-flex", alignItems: "center", justifyContent: "center" };
+  const svgProps = { width: size, height: size, viewBox: "0 0 24 24", fill: "none", stroke: color, strokeWidth: 1.8, strokeLinecap: "round" as const, strokeLinejoin: "round" as const };
+
+  const icons: Record<IconType, React.ReactElement> = {
     phone: <svg {...svgProps}><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12" y2="18.01"/></svg>,
     pen: <svg {...svgProps}><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>,
     search: <svg {...svgProps}><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>,
